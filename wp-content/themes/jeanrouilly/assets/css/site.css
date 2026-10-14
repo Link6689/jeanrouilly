@@ -389,6 +389,10 @@ h3 { font-size: 1.25rem; font-weight: 700; }
 	margin-top: 0;
 }
 
+.wpcf7 .hidden-fields-container {
+	display: none;
+}
+
 .wpcf7 form p {
 	margin-bottom: 1.1rem;
 }
