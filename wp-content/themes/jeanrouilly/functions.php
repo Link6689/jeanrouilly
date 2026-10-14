@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JR_VERSION', '0.2.0' );
+define( 'JR_VERSION', '0.3.0' );
 
 /**
  * Styles du site, chargés après ceux de Blocksy (front et éditeur).
@@ -55,14 +55,27 @@ function jr_preprod_noindex( $robots ) {
 add_filter( 'wp_robots', 'jr_preprod_noindex' );
 
 /**
- * Pied de page : copyright et liens légaux.
+ * Pied de page : copyright, coordonnées et liens légaux.
+ * Les coordonnées sont enregistrées par setup/setup.php (option jr_contact).
  */
 function jr_footer_copyright() {
-	return sprintf(
-		'© {current_year} {site_title} · Mentorat personnalisé · <a href="%s">Mentions légales</a> · <a href="%s">Confidentialité</a>',
-		esc_url( home_url( '/mentions-legales/' ) ),
-		esc_url( home_url( '/politique-de-confidentialite/' ) )
-	);
+	$contact = (array) get_option( 'jr_contact', [] );
+	$parts   = [ '© {current_year} {site_title} · Mentorat personnalisé' ];
+
+	if ( ! empty( $contact['phone'] ) ) {
+		$parts[] = sprintf(
+			'<a href="tel:+33%s">%s</a>',
+			esc_attr( substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 ) ),
+			esc_html( $contact['phone'] )
+		);
+	}
+	if ( ! empty( $contact['linkedin'] ) ) {
+		$parts[] = sprintf( '<a href="%s" target="_blank" rel="noreferrer noopener">LinkedIn</a>', esc_url( $contact['linkedin'] ) );
+	}
+	$parts[] = sprintf( '<a href="%s">Mentions légales</a>', esc_url( home_url( '/mentions-legales/' ) ) );
+	$parts[] = sprintf( '<a href="%s">Confidentialité</a>', esc_url( home_url( '/politique-de-confidentialite/' ) ) );
+
+	return implode( ' · ', $parts );
 }
 add_filter( 'blocksy:footer:copyright:default-value', 'jr_footer_copyright' );
 

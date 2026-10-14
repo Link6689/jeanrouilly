@@ -10,7 +10,7 @@
 #   SITE_URL          URL du site                             (défaut : https://jean.conquerantsduweb.com)
 #   ADMIN_USER, ADMIN_EMAIL, ADMIN_PASSWORD   compte admin, si WordPress n'est pas encore installé
 #   DB_NAME, DB_USER, DB_PASSWORD, DB_HOST    base de données, si wp-config.php n'existe pas encore
-#   JR_CONTACT_EMAIL  destinataire du formulaire de contact   (défaut : e-mail admin)
+#   JR_CONTACT_EMAIL  destinataire du formulaire de contact   (défaut : e-mail de Jean, cf. setup.php)
 #   JR_PREPROD        1 = site non indexé (défaut), 0 = production
 set -euo pipefail
 

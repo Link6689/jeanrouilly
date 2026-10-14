@@ -4,7 +4,7 @@
  * Idempotent : peut être relancé sans dupliquer les pages, menus ou formulaires.
  *
  * Variables d'environnement lues :
- *   JR_CONTACT_EMAIL  destinataire du formulaire de contact (défaut : e-mail admin)
+ *   JR_CONTACT_EMAIL  destinataire du formulaire de contact (défaut : e-mail de Jean ci-dessous)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,6 +16,18 @@ $content_dir = __DIR__ . '/content';
 function jr_log( $msg ) {
 	WP_CLI::log( '  ' . $msg );
 }
+
+/* -------------------------------------------------------------------------
+ * Coordonnées de Jean (affichées sur le site et destinataire du formulaire)
+ * ---------------------------------------------------------------------- */
+
+$contact = [
+	'email'    => 'jean.rouilly@imcpartners.fr',
+	'phone'    => '06 86 18 55 34',
+	'linkedin' => 'https://www.linkedin.com/in/jean-rouilly-08329019/',
+];
+// Lu par le thème (pied de page).
+update_option( 'jr_contact', $contact );
 
 /* -------------------------------------------------------------------------
  * Réglages généraux
@@ -50,7 +62,7 @@ foreach ( [ 'page-d-exemple', 'sample-page' ] as $slug ) {
  * ---------------------------------------------------------------------- */
 
 $form_title = 'Formulaire de contact – Mentorat';
-$recipient  = getenv( 'JR_CONTACT_EMAIL' ) ?: get_option( 'admin_email' );
+$recipient  = getenv( 'JR_CONTACT_EMAIL' ) ?: $contact['email'];
 
 $form_markup = <<<'CF7'
 <div class="jr-form-row">
@@ -192,6 +204,10 @@ foreach ( $pages as $slug => list( $title, $file ) ) {
 			'{{CONTACT_FORM}}' => sprintf( '[contact-form-7 id="%s" title="%s"]', $form->hash(), $form_title ),
 			'{{PHOTO_ID}}'     => $photo_id,
 			'{{PHOTO_URL}}'    => esc_url( $photo_url ),
+			'{{EMAIL}}'        => $contact['email'],
+			'{{PHONE}}'        => $contact['phone'],
+			'{{PHONE_LINK}}'   => 'tel:+33' . substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 ),
+			'{{LINKEDIN}}'     => $contact['linkedin'],
 		]
 	);
 
