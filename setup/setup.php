@@ -124,6 +124,32 @@ foreach ( WPCF7_ContactForm::find() as $other ) {
 }
 
 /* -------------------------------------------------------------------------
+ * Photo de Jean (médiathèque, importée une seule fois)
+ * ---------------------------------------------------------------------- */
+
+require_once ABSPATH . 'wp-admin/includes/image.php';
+require_once ABSPATH . 'wp-admin/includes/file.php';
+require_once ABSPATH . 'wp-admin/includes/media.php';
+
+$photo_id = (int) get_option( 'jr_photo_id' );
+if ( ! $photo_id || ! get_post( $photo_id ) ) {
+	$tmp = wp_tempnam( 'jean-rouilly.webp' );
+	copy( __DIR__ . '/media/jean-rouilly.webp', $tmp );
+	$photo_id = media_handle_sideload(
+		[ 'name' => 'jean-rouilly.webp', 'tmp_name' => $tmp ],
+		0,
+		'Jean Rouilly'
+	);
+	if ( is_wp_error( $photo_id ) ) {
+		WP_CLI::error( 'Photo : ' . $photo_id->get_error_message() );
+	}
+	update_post_meta( $photo_id, '_wp_attachment_image_alt', 'Jean Rouilly, mentor' );
+	update_option( 'jr_photo_id', $photo_id );
+}
+$photo_url = wp_get_attachment_url( $photo_id );
+jr_log( "Photo #$photo_id" );
+
+/* -------------------------------------------------------------------------
  * Pages
  * ---------------------------------------------------------------------- */
 
@@ -139,10 +165,13 @@ $page_ids = [];
 
 foreach ( $pages as $slug => list( $title, $file ) ) {
 	$content = file_get_contents( "$content_dir/$file" );
-	$content = str_replace(
-		'{{CONTACT_FORM}}',
-		sprintf( '[contact-form-7 id="%s" title="%s"]', $form->hash(), $form_title ),
-		$content
+	$content = strtr(
+		$content,
+		[
+			'{{CONTACT_FORM}}' => sprintf( '[contact-form-7 id="%s" title="%s"]', $form->hash(), $form_title ),
+			'{{PHOTO_ID}}'     => $photo_id,
+			'{{PHOTO_URL}}'    => esc_url( $photo_url ),
+		]
 	);
 
 	$existing = get_page_by_path( $slug );
