@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JR_VERSION', '0.4.0' );
+define( 'JR_VERSION', '0.5.0' );
 
 /**
  * Styles du site, chargés après ceux de Blocksy (front et éditeur).
@@ -175,6 +175,9 @@ function jr_seo_head() {
 				'sameAs'      => ! empty( $contact['linkedin'] ) ? [ $contact['linkedin'] ] : null,
 				'address'     => ! empty( $contact['city'] ) ? [ '@type' => 'PostalAddress', 'addressLocality' => $contact['city'], 'addressCountry' => 'FR' ] : null,
 				'areaServed'  => ! empty( $contact['city'] ) ? [ $contact['city'], 'France' ] : null,
+				'award'       => 'Chevalier de l’Ordre national du Mérite',
+				'alumniOf'    => [ '@type' => 'CollegeOrUniversity', 'name' => 'Sciences Po Bordeaux' ],
+				'knowsLanguage' => [ 'fr', 'en' ],
 				'knowsAbout'  => [ 'Mentorat', 'Management', 'Orientation professionnelle', 'Développement personnel', 'Entrepreneuriat' ],
 			]
 		);
