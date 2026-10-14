@@ -1,0 +1,5 @@
+# WordPress installé localement (Docker ou ./wordpress) : jamais versionné
+/wordpress/
+.env
+*.log
+.DS_Store

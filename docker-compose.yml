@@ -1,0 +1,52 @@
+# Environnement local : docker compose up -d, puis
+#   docker compose run --rm cli   (le service « cli » lance setup/install.sh)
+# Le site est ensuite disponible sur http://localhost:8080 (admin / admin).
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    depends_on: [db]
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./wp-content/themes/jeanrouilly:/var/www/html/wp-content/themes/jeanrouilly
+
+  cli:
+    image: wordpress:cli-php8.3
+    profiles: [tools]
+    depends_on: [wordpress]
+    user: "33:33"
+    working_dir: /repo
+    entrypoint: ["bash", "./setup/install.sh"]
+    environment:
+      WP_PATH: /var/www/html
+      JR_THEME_LINKED: "1"
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      SITE_URL: http://localhost:8080
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: admin
+      ADMIN_EMAIL: admin@example.com
+      JR_CONTACT_EMAIL: admin@example.com
+      HOME: /tmp
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./wp-content/themes/jeanrouilly:/var/www/html/wp-content/themes/jeanrouilly:ro
+      - ./:/repo:ro

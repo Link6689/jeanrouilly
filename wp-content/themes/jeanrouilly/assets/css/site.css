@@ -1,0 +1,492 @@
+/* ==========================================================================
+   Jean Rouilly – Mentorat personnalisé
+   Sobre, moderne, lumineux. S'appuie sur la palette globale Blocksy
+   (--theme-palette-color-1..8), définie par setup/setup.php.
+   ========================================================================== */
+
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	src: url("../fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2");
+	font-weight: 200 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Inter";
+	src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--jr-primary: var(--theme-palette-color-1, #0e7c7b);
+	--jr-primary-dark: var(--theme-palette-color-2, #0a5f5e);
+	--jr-text: var(--theme-palette-color-3, #475569);
+	--jr-heading: var(--theme-palette-color-4, #1e293b);
+	--jr-border: var(--theme-palette-color-5, #f1e4d3);
+	--jr-cream: var(--theme-palette-color-6, #fff3e4);
+	--jr-bg: var(--theme-palette-color-7, #fffaf4);
+	--jr-white: var(--theme-palette-color-8, #ffffff);
+	--jr-sun: #f6b23c;
+	--jr-coral: #ef7b5a;
+
+	--jr-radius: 20px;
+	--jr-shadow: 0 1px 2px rgb(30 41 59 / 4%), 0 12px 32px -12px rgb(30 41 59 / 14%);
+	--jr-section-y: clamp(3.5rem, 8vw, 6.5rem);
+
+	--theme-font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--jr-font-heading: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+}
+
+body {
+	font-family: var(--theme-font-family);
+	font-size: 17px;
+	line-height: 1.7;
+	color: var(--jr-text);
+	background-color: var(--jr-bg);
+}
+
+h1, h2, h3, h4,
+.site-title,
+.ct-menu-link {
+	font-family: var(--jr-font-heading);
+}
+
+h1, h2, h3, h4 {
+	color: var(--jr-heading);
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+}
+
+h1 { font-size: clamp(2.3rem, 5.5vw, 3.75rem); font-weight: 800; }
+h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 750; }
+h3 { font-size: 1.25rem; font-weight: 700; }
+
+/* --- Utilitaires ------------------------------------------------------- */
+
+.jr-eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	margin-bottom: 0.75rem !important;
+	font-family: var(--jr-font-heading);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--jr-primary);
+}
+
+.jr-eyebrow::before {
+	content: "";
+	width: 28px;
+	height: 3px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, var(--jr-sun), var(--jr-coral));
+}
+
+.jr-eyebrow + h1,
+.jr-eyebrow + h2,
+.jr-eyebrow + .jr-statement {
+	margin-top: 0.5rem !important;
+}
+
+.jr-lead {
+	font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+	line-height: 1.6;
+}
+
+.jr-todo {
+	padding: 0.75rem 1rem;
+	border-left: 4px solid var(--jr-sun);
+	border-radius: 8px;
+	background: var(--jr-cream);
+	font-weight: 600;
+}
+
+/* Textes courants limités en largeur mais alignés à gauche de la colonne
+   (la mise en page « contrainte » de WordPress les centrerait sinon). */
+.is-layout-constrained > .jr-eyebrow + h1,
+.jr-eyebrow + h2,
+.jr-eyebrow + .jr-statement {
+	margin-top: 0.5rem !important;
+}
+
+.jr-lead {
+	max-width: min(46rem, var(--wp--style--global--content-size, 100%));
+	margin-left: max(0px, calc((100% - var(--wp--style--global--content-size, 100%)) / 2)) !important;
+	margin-right: auto !important;
+}
+
+/* --- Boutons ------------------------------------------------------------ */
+
+.wp-block-button__link,
+.wpcf7-submit {
+	padding: 0.95em 1.7em;
+	border-radius: 999px;
+	font-family: var(--jr-font-heading);
+	font-weight: 700;
+	background: var(--jr-primary);
+	color: var(--jr-white);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.wp-block-button__link:hover,
+.wpcf7-submit:hover {
+	background: var(--jr-primary-dark);
+	color: var(--jr-white);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 24px -10px rgb(14 124 123 / 60%);
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link {
+	background: transparent;
+	color: var(--jr-primary);
+	border: 2px solid currentColor;
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+	background: var(--jr-primary);
+	color: var(--jr-white);
+	border-color: var(--jr-primary);
+}
+
+.wp-block-buttons {
+	gap: 0.85rem;
+	margin-top: 2rem;
+}
+
+/* --- Sections ----------------------------------------------------------- */
+
+.jr-hero,
+.jr-section,
+.jr-cta {
+	padding-top: var(--jr-section-y);
+	padding-bottom: var(--jr-section-y);
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.jr-hero {
+	position: relative;
+	overflow: hidden;
+	padding-top: clamp(4rem, 11vw, 8rem);
+	padding-bottom: clamp(4rem, 11vw, 8rem);
+	background:
+		radial-gradient(60rem 30rem at 100% 0%, rgb(246 178 60 / 28%), transparent 60%),
+		radial-gradient(40rem 26rem at 0% 100%, rgb(14 124 123 / 14%), transparent 65%),
+		linear-gradient(180deg, var(--jr-cream), var(--jr-bg));
+}
+
+.jr-hero::after {
+	content: "";
+	position: absolute;
+	right: -6rem;
+	top: 50%;
+	width: 22rem;
+	height: 22rem;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 35%, var(--jr-sun), var(--jr-coral));
+	opacity: 0.18;
+	transform: translateY(-50%);
+	animation: jr-float 9s ease-in-out infinite;
+	pointer-events: none;
+}
+
+.jr-hero > * {
+	position: relative;
+	z-index: 1;
+}
+
+.jr-hero--page {
+	padding-top: clamp(3rem, 8vw, 5.5rem);
+	padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+.jr-hero--page h1 {
+	font-size: clamp(2rem, 4.5vw, 3rem);
+}
+
+.jr-section--tinted {
+	background: var(--jr-cream);
+}
+
+.jr-conviction {
+	text-align: center;
+}
+
+.jr-conviction .jr-eyebrow {
+	justify-content: center;
+}
+
+.jr-statement {
+	max-width: 52rem;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	font-family: var(--jr-font-heading);
+	font-size: clamp(1.4rem, 2.8vw, 2rem);
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--jr-heading);
+}
+
+.jr-statement strong {
+	background: linear-gradient(transparent 62%, rgb(246 178 60 / 45%) 0);
+}
+
+/* --- Cartes ------------------------------------------------------------- */
+
+.jr-cards {
+	gap: 1.5rem;
+	margin-top: 2.25rem;
+}
+
+.jr-card {
+	position: relative;
+	padding: 2rem 1.75rem;
+	border: 1px solid var(--jr-border);
+	border-radius: var(--jr-radius);
+	background: var(--jr-white);
+	box-shadow: var(--jr-shadow);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.jr-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 1px 2px rgb(30 41 59 / 4%), 0 22px 40px -16px rgb(30 41 59 / 22%);
+}
+
+.jr-card > :first-child { margin-top: 0; }
+.jr-card > :last-child { margin-bottom: 0; }
+.jr-card h3 { margin-bottom: 0.6rem; }
+
+.jr-cards--numbered {
+	counter-reset: jr-card;
+}
+
+.jr-cards--numbered > .jr-card {
+	counter-increment: jr-card;
+	padding-top: 4.5rem;
+}
+
+.jr-cards--numbered > .jr-card::before {
+	content: counter(jr-card, decimal-leading-zero);
+	position: absolute;
+	top: 1.6rem;
+	left: 1.75rem;
+	display: grid;
+	place-items: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 12px;
+	background: linear-gradient(135deg, var(--jr-sun), var(--jr-coral));
+	color: var(--jr-white);
+	font-family: var(--jr-font-heading);
+	font-size: 0.85rem;
+	font-weight: 800;
+}
+
+.jr-tags {
+	margin-top: 1rem;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--jr-primary);
+}
+
+.jr-checklist {
+	padding-left: 0;
+	list-style: none;
+}
+
+.jr-checklist li {
+	position: relative;
+	padding-left: 1.8rem;
+	margin-bottom: 0.45rem;
+}
+
+.jr-checklist li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.45em;
+	width: 1.05rem;
+	height: 1.05rem;
+	border-radius: 50%;
+	background: var(--jr-primary)
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M4 8.5l2.5 2.5L12 5.5'/%3E%3C/svg%3E")
+		center / 75% no-repeat;
+}
+
+/* --- Engagement & appel à l'action ------------------------------------- */
+
+.jr-engagement {
+	background: linear-gradient(135deg, var(--jr-primary), var(--jr-primary-dark));
+	color: rgb(255 255 255 / 88%);
+}
+
+.jr-engagement h2,
+.jr-engagement h3 {
+	color: var(--jr-white);
+}
+
+.jr-engagement .jr-eyebrow {
+	color: var(--jr-sun);
+}
+
+.jr-pledges {
+	gap: 1.5rem;
+	margin-top: 2rem;
+}
+
+.jr-pledges > .wp-block-column {
+	padding: 1.75rem;
+	border: 1px solid rgb(255 255 255 / 18%);
+	border-radius: var(--jr-radius);
+	background: rgb(255 255 255 / 7%);
+}
+
+.jr-pledges h3 {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-top: 0;
+}
+
+.jr-pledges h3::before {
+	content: "";
+	flex: none;
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 50%;
+	background: var(--jr-sun);
+	box-shadow: 0 0 0 5px rgb(246 178 60 / 25%);
+}
+
+.jr-pledges p { margin-bottom: 0; }
+
+.jr-cta {
+	text-align: center;
+	background:
+		radial-gradient(40rem 20rem at 50% 120%, rgb(246 178 60 / 30%), transparent 70%),
+		var(--jr-bg);
+}
+
+.jr-cta .wp-block-buttons {
+	justify-content: center;
+}
+
+/* --- Contact ------------------------------------------------------------ */
+
+.jr-contact {
+	gap: 2.5rem;
+}
+
+.jr-contact__aside h3 {
+	margin-top: 0;
+}
+
+.wpcf7 form p {
+	margin-bottom: 1.1rem;
+}
+
+.wpcf7 label {
+	display: block;
+	font-weight: 600;
+	color: var(--jr-heading);
+	font-size: 0.95rem;
+}
+
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"],
+.wpcf7 select,
+.wpcf7 textarea {
+	width: 100%;
+	margin-top: 0.4rem;
+	padding: 0.8rem 1rem;
+	border: 1.5px solid var(--jr-border);
+	border-radius: 12px;
+	background: var(--jr-bg);
+	font: inherit;
+	font-weight: 400;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wpcf7 select {
+	height: auto;
+	min-height: 3.2rem;
+	line-height: 1.4;
+}
+
+.wpcf7 input:focus,
+.wpcf7 select:focus,
+.wpcf7 textarea:focus {
+	outline: none;
+	border-color: var(--jr-primary);
+	box-shadow: 0 0 0 4px rgb(14 124 123 / 15%);
+}
+
+.wpcf7 .jr-form-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: 0 1rem;
+}
+
+.wpcf7-acceptance label {
+	font-weight: 400;
+	font-size: 0.9rem;
+	color: var(--jr-text);
+}
+
+.wpcf7-submit {
+	border: 0;
+	cursor: pointer;
+}
+
+/* --- En-tête & pied de page (Blocksy) ----------------------------------- */
+
+.ct-header .site-title a {
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+
+.ct-header .site-description {
+	color: var(--jr-primary);
+	font-weight: 600;
+}
+
+.ct-footer {
+	font-size: 0.9rem;
+}
+
+/* --- Animations --------------------------------------------------------- */
+
+@keyframes jr-float {
+	0%, 100% { transform: translateY(-50%) scale(1); }
+	50% { transform: translateY(-56%) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jr-hero::after { animation: none; }
+	.jr-card,
+	.wp-block-button__link { transition: none; }
+}
+
+@media (max-width: 689px) {
+	.jr-hero::after {
+		width: 14rem;
+		height: 14rem;
+		right: -5rem;
+		top: 12%;
+	}
+}
+
+@media (max-width: 999px) {
+	.is-layout-constrained > .jr-lead {
+		margin-left: auto !important;
+	}
+}
