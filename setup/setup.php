@@ -25,6 +25,7 @@ $contact = [
 	'email'    => 'jean.rouilly@imcpartners.fr',
 	'phone'    => '06 86 18 55 34',
 	'linkedin' => 'https://www.linkedin.com/in/jean-rouilly-08329019/',
+	'city'     => 'Paris',
 ];
 $contact['phone_intl'] = '33' . substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 );
 $contact['whatsapp']   = 'https://wa.me/' . $contact['phone_intl'] . '?text=' . rawurlencode( 'Bonjour Jean, je vous contacte depuis votre site.' );
@@ -195,8 +196,8 @@ jr_log( "Icône du site #$icon_id" );
 
 // slug => [ titre, fichier de contenu, description (extrait, utilisé pour Google et les partages) ]
 $pages = [
-	'accueil'                      => [ 'Accueil', 'accueil.html', 'Mentorat personnalisé et confidentiel : Jean Rouilly met son expérience du management exécutif au service de vos projets personnels et professionnels.' ],
-	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html', 'Sessions régulières ou ponctuelles, en présentiel, en visio ou sur WhatsApp, hotline entre les sessions et mémos : le mentorat proposé par Jean Rouilly.' ],
+	'accueil'                      => [ 'Accueil', 'accueil.html', 'Mentorat personnalisé et confidentiel à Paris et à distance : Jean Rouilly met son expérience du management exécutif au service de vos projets.' ],
+	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html', 'Sessions régulières ou ponctuelles, en présentiel à Paris, en visio ou sur WhatsApp, hotline et mémos : le mentorat proposé par Jean Rouilly.' ],
 	'contact'                      => [ 'Contact', 'contact.html', 'Contactez Jean Rouilly pour un premier échange : formulaire, téléphone, e-mail ou WhatsApp. Vos informations restent confidentielles.' ],
 	'mentions-legales'             => [ 'Mentions légales', 'mentions-legales.html', '' ],
 	'politique-de-confidentialite' => [ 'Politique de confidentialité', 'confidentialite.html', '' ],

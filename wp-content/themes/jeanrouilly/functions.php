@@ -60,7 +60,7 @@ add_filter( 'wp_robots', 'jr_preprod_noindex' );
  */
 function jr_footer_copyright() {
 	$contact = (array) get_option( 'jr_contact', [] );
-	$parts   = [ '© {current_year} {site_title} · Mentorat personnalisé' ];
+	$parts   = [ '© {current_year} {site_title} · Mentorat personnalisé' . ( ! empty( $contact['city'] ) ? ' · ' . esc_html( $contact['city'] ) : '' ) ];
 
 	if ( ! empty( $contact['phone'] ) ) {
 		$parts[] = sprintf( '<a href="tel:+%s">%s</a>', esc_attr( $contact['phone_intl'] ?? '' ), esc_html( $contact['phone'] ) );
@@ -173,6 +173,8 @@ function jr_seo_head() {
 				'email'       => ! empty( $contact['email'] ) ? 'mailto:' . $contact['email'] : null,
 				'telephone'   => ! empty( $contact['phone_intl'] ) ? '+' . $contact['phone_intl'] : null,
 				'sameAs'      => ! empty( $contact['linkedin'] ) ? [ $contact['linkedin'] ] : null,
+				'address'     => ! empty( $contact['city'] ) ? [ '@type' => 'PostalAddress', 'addressLocality' => $contact['city'], 'addressCountry' => 'FR' ] : null,
+				'areaServed'  => ! empty( $contact['city'] ) ? [ $contact['city'], 'France' ] : null,
 				'knowsAbout'  => [ 'Mentorat', 'Management', 'Orientation professionnelle', 'Développement personnel', 'Entrepreneuriat' ],
 			]
 		);
