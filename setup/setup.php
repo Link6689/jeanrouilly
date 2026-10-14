@@ -124,30 +124,51 @@ foreach ( WPCF7_ContactForm::find() as $other ) {
 }
 
 /* -------------------------------------------------------------------------
- * Photo de Jean (médiathèque, importée une seule fois)
+ * Médias : photo de Jean et icône du site (importées une seule fois)
  * ---------------------------------------------------------------------- */
 
 require_once ABSPATH . 'wp-admin/includes/image.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 
-$photo_id = (int) get_option( 'jr_photo_id' );
-if ( ! $photo_id || ! get_post( $photo_id ) ) {
-	$tmp = wp_tempnam( 'jean-rouilly.webp' );
-	copy( __DIR__ . '/media/jean-rouilly.webp', $tmp );
-	$photo_id = media_handle_sideload(
-		[ 'name' => 'jean-rouilly.webp', 'tmp_name' => $tmp ],
-		0,
-		'Jean Rouilly'
-	);
-	if ( is_wp_error( $photo_id ) ) {
-		WP_CLI::error( 'Photo : ' . $photo_id->get_error_message() );
+/**
+ * Importe un fichier de setup/media dans la médiathèque, une seule fois
+ * (l'ID est mémorisé dans une option), et renvoie l'ID de la pièce jointe.
+ */
+function jr_import_media( $filename, $title, $alt, $option ) {
+	$id = (int) get_option( $option );
+	if ( $id && get_post( $id ) ) {
+		return $id;
 	}
-	update_post_meta( $photo_id, '_wp_attachment_image_alt', 'Jean Rouilly, mentor' );
-	update_option( 'jr_photo_id', $photo_id );
+	$tmp = wp_tempnam( $filename );
+	copy( __DIR__ . '/media/' . $filename, $tmp );
+	$id = media_handle_sideload( [ 'name' => $filename, 'tmp_name' => $tmp ], 0, $title );
+	if ( is_wp_error( $id ) ) {
+		WP_CLI::error( "$filename : " . $id->get_error_message() );
+	}
+	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
+	update_option( $option, $id );
+	return $id;
 }
+
+$photo_id = jr_import_media( 'jean-rouilly.webp', 'Jean Rouilly', 'Jean Rouilly, mentor', 'jr_photo_id' );
 $photo_url = wp_get_attachment_url( $photo_id );
 jr_log( "Photo #$photo_id" );
+
+// Icône du site (favicon, icône d'écran d'accueil mobile).
+$icon_id = jr_import_media( 'site-icon.png', 'Icône du site', '', 'jr_site_icon_id' );
+if ( 'site-icon' !== get_post_meta( $icon_id, '_wp_attachment_context', true ) ) {
+	// Génère les tailles dédiées (32, 180, 192, 270 px) comme le fait l'outil
+	// « Icône du site » du Customizer, au lieu de réutiliser les miniatures.
+	require_once ABSPATH . 'wp-admin/includes/class-wp-site-icon.php';
+	$site_icon = new WP_Site_Icon();
+	add_filter( 'intermediate_image_sizes_advanced', [ $site_icon, 'additional_sizes' ] );
+	update_post_meta( $icon_id, '_wp_attachment_context', 'site-icon' );
+	wp_update_attachment_metadata( $icon_id, wp_generate_attachment_metadata( $icon_id, get_attached_file( $icon_id ) ) );
+	remove_filter( 'intermediate_image_sizes_advanced', [ $site_icon, 'additional_sizes' ] );
+}
+update_option( 'site_icon', $icon_id );
+jr_log( "Icône du site #$icon_id" );
 
 /* -------------------------------------------------------------------------
  * Pages
