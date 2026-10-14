@@ -84,6 +84,13 @@ fi
 
 echo "==> Contenu et réglages"
 wp eval-file "$REPO_DIR/setup/setup.php"
-wp rewrite flush --hard 2>/dev/null || wp rewrite flush
+wp rewrite flush
+# WP-CLI ne sait pas qu'Apache a mod_rewrite : on force l'écriture du .htaccess
+# (sans quoi toutes les pages sauf l'accueil sont en 404).
+wp eval 'add_filter("got_rewrite", "__return_true"); require_once ABSPATH . "wp-admin/includes/misc.php"; save_mod_rewrite_rules();'
+
+# Régénère le CSS dynamique de Blocksy dans un nouveau processus, pour qu'il
+# lise la palette tout juste enregistrée (et pas des réglages en cache mémoire).
+wp eval 'delete_transient("blocksy_dynamic_styles_descriptor"); do_action("blocksy:dynamic-css:refresh-caches");'
 
 echo "==> Terminé : $(wp option get home)"
