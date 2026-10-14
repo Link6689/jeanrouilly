@@ -26,7 +26,9 @@ $contact = [
 	'phone'    => '06 86 18 55 34',
 	'linkedin' => 'https://www.linkedin.com/in/jean-rouilly-08329019/',
 ];
-// Lu par le thème (pied de page).
+$contact['phone_intl'] = '33' . substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 );
+$contact['whatsapp']   = 'https://wa.me/' . $contact['phone_intl'] . '?text=' . rawurlencode( 'Bonjour Jean, je vous contacte depuis votre site.' );
+// Lu par le thème (pied de page, bouton WhatsApp, données structurées).
 update_option( 'jr_contact', $contact );
 
 /* -------------------------------------------------------------------------
@@ -75,6 +77,7 @@ $form_markup = <<<'CF7'
 </div>
 <p><label>Votre message *[textarea* your-message x6 placeholder "Décrivez en quelques mots votre situation et ce que vous attendez d’un accompagnement."]</label></p>
 <p>[acceptance rgpd] J’accepte que les informations saisies soient utilisées pour me recontacter. <a href="/politique-de-confidentialite/">En savoir plus</a>[/acceptance]</p>
+<p class="jr-hp" aria-hidden="true"><label>Ne pas remplir ce champ[text jr-website tabindex:-1 autocomplete:off]</label></p>
 <p>[submit "Envoyer mon message"]</p>
 CF7;
 
@@ -167,6 +170,10 @@ $photo_id = jr_import_media( 'jean-rouilly.webp', 'Jean Rouilly', 'Jean Rouilly,
 $photo_url = wp_get_attachment_url( $photo_id );
 jr_log( "Photo #$photo_id" );
 
+// Image d'aperçu pour les partages (LinkedIn, WhatsApp…), format 1,91:1 en JPEG.
+$share_id = jr_import_media( 'partage.jpg', 'Jean Rouilly – aperçu de partage', 'Jean Rouilly, mentor', 'jr_share_image_id' );
+jr_log( "Image de partage #$share_id" );
+
 // Icône du site (favicon, icône d'écran d'accueil mobile).
 $icon_id = jr_import_media( 'site-icon.png', 'Icône du site', '', 'jr_site_icon_id' );
 if ( 'site-icon' !== get_post_meta( $icon_id, '_wp_attachment_context', true ) ) {
@@ -186,17 +193,18 @@ jr_log( "Icône du site #$icon_id" );
  * Pages
  * ---------------------------------------------------------------------- */
 
+// slug => [ titre, fichier de contenu, description (extrait, utilisé pour Google et les partages) ]
 $pages = [
-	'accueil'                      => [ 'Accueil', 'accueil.html' ],
-	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html' ],
-	'contact'                      => [ 'Contact', 'contact.html' ],
-	'mentions-legales'             => [ 'Mentions légales', 'mentions-legales.html' ],
-	'politique-de-confidentialite' => [ 'Politique de confidentialité', 'confidentialite.html' ],
+	'accueil'                      => [ 'Accueil', 'accueil.html', 'Mentorat personnalisé et confidentiel : Jean Rouilly met son expérience du management exécutif au service de vos projets personnels et professionnels.' ],
+	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html', 'Sessions régulières ou ponctuelles, en présentiel, en visio ou sur WhatsApp, hotline entre les sessions et mémos : le mentorat proposé par Jean Rouilly.' ],
+	'contact'                      => [ 'Contact', 'contact.html', 'Contactez Jean Rouilly pour un premier échange : formulaire, téléphone, e-mail ou WhatsApp. Vos informations restent confidentielles.' ],
+	'mentions-legales'             => [ 'Mentions légales', 'mentions-legales.html', '' ],
+	'politique-de-confidentialite' => [ 'Politique de confidentialité', 'confidentialite.html', '' ],
 ];
 
 $page_ids = [];
 
-foreach ( $pages as $slug => list( $title, $file ) ) {
+foreach ( $pages as $slug => list( $title, $file, $excerpt ) ) {
 	$content = file_get_contents( "$content_dir/$file" );
 	$content = strtr(
 		$content,
@@ -206,7 +214,8 @@ foreach ( $pages as $slug => list( $title, $file ) ) {
 			'{{PHOTO_URL}}'    => esc_url( $photo_url ),
 			'{{EMAIL}}'        => $contact['email'],
 			'{{PHONE}}'        => $contact['phone'],
-			'{{PHONE_LINK}}'   => 'tel:+33' . substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 ),
+			'{{PHONE_LINK}}'   => 'tel:+' . $contact['phone_intl'],
+			'{{WHATSAPP}}'     => esc_url( $contact['whatsapp'] ),
 			'{{LINKEDIN}}'     => $contact['linkedin'],
 		]
 	);
@@ -218,6 +227,7 @@ foreach ( $pages as $slug => list( $title, $file ) ) {
 		'post_title'   => $title,
 		'post_name'    => $slug,
 		'post_content' => wp_slash( $content ),
+		'post_excerpt' => $excerpt,
 	];
 	if ( $existing ) {
 		$postarr['ID'] = $existing->ID;
