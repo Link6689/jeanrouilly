@@ -23,6 +23,14 @@ wp() { command wp --path="$WP_PATH" "$@"; }
 
 command -v wp >/dev/null || { echo "WP-CLI est requis : https://wp-cli.org" >&2; exit 1; }
 
+# Contact Form 7 exige PHP 8.3 minimum.
+PHP_VERSION="$(php -r 'echo PHP_VERSION;')"
+if ! php -r 'exit(version_compare(PHP_VERSION, "8.3", ">=") ? 0 : 1);'; then
+	echo "PHP $PHP_VERSION détecté : PHP 8.3 minimum est requis." >&2
+	echo "Sur o2switch : cPanel › « Sélectionner une version de PHP » › choisir 8.3 ou plus, puis relancer." >&2
+	exit 1
+fi
+
 echo "==> WordPress dans $WP_PATH ($SITE_URL)"
 mkdir -p "$WP_PATH"
 

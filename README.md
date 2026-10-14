@@ -27,7 +27,7 @@ docker-compose.yml               environnement local
 
 ## Installer la préprod sur jean.conquerantsduweb.com
 
-Prérequis sur le serveur : PHP 8.1+, MySQL/MariaDB, [WP-CLI](https://wp-cli.org), accès SSH.
+Prérequis sur le serveur : PHP 8.3+ (exigé par Contact Form 7), MySQL/MariaDB, [WP-CLI](https://wp-cli.org), accès SSH.
 
 ```bash
 git clone <ce dépôt> ~/jeanrouilly && cd ~/jeanrouilly
