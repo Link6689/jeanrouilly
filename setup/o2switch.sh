@@ -2,7 +2,7 @@
 # Mise en ligne en une commande sur un hébergement cPanel (o2switch).
 # À coller dans le Terminal du cPanel (ou en SSH) :
 #
-#   curl -sSL https://raw.githubusercontent.com/link6689/jeanrouilly/refs/heads/claude/pensive-feynman-gpmy83/setup/o2switch.sh | bash -s -- votre@email.fr
+#   curl -sSL https://codeload.github.com/Link6689/jeanrouilly/tar.gz/refs/heads/claude/pensive-feynman-gpmy83 | tar -xzO --wildcards '*/setup/o2switch.sh' | bash -s -- votre@email.fr
 #
 # Le script, relançable sans risque :
 #   1. crée le sous-domaine jean.conquerantsduweb.com s'il n'existe pas ;
@@ -19,7 +19,7 @@ SUBDOMAIN="jean"
 ROOT_DOMAIN="conquerantsduweb.com"
 SITE_HOST="$SUBDOMAIN.$ROOT_DOMAIN"
 BRANCH="claude/pensive-feynman-gpmy83"
-REPO_TARBALL="https://codeload.github.com/link6689/jeanrouilly/tar.gz/refs/heads/$BRANCH"
+REPO_TARBALL="https://codeload.github.com/Link6689/jeanrouilly/tar.gz/refs/heads/$BRANCH"
 SECRETS="$HOME/.jeanrouilly.env"
 CPUSER="$(id -un)"
 
