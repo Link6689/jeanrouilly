@@ -74,7 +74,7 @@ $form_markup = <<<'CF7'
 </div>
 <div class="jr-form-row">
 <p><label>Téléphone (facultatif)[tel your-phone autocomplete:tel]</label></p>
-<p><label>Votre demande concerne[select your-topic "Développement personnel" "Vie professionnelle, management" "Orientation : études, carrière, entrepreneuriat" "Autre"]</label></p>
+<p><label>Votre demande concerne[select your-topic "Session diagnostic offerte" "Développement personnel" "Vie professionnelle, management" "Orientation : études, carrière, entrepreneuriat" "Autre"]</label></p>
 </div>
 <p><label>Votre message *[textarea* your-message x6 placeholder "Décrivez en quelques mots votre situation et ce que vous attendez d’un accompagnement."]</label></p>
 <p>[acceptance rgpd] J’accepte que les informations saisies soient utilisées pour me recontacter. <a href="/politique-de-confidentialite/">En savoir plus</a>[/acceptance]</p>
@@ -197,8 +197,8 @@ jr_log( "Icône du site #$icon_id" );
 // slug => [ titre, fichier de contenu, description (extrait, utilisé pour Google et les partages) ]
 $pages = [
 	'accueil'                      => [ 'Accueil', 'accueil.html', 'Mentorat personnalisé et confidentiel à Paris et à distance : Jean Rouilly met son expérience du management exécutif au service de vos projets.' ],
-	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html', 'Sessions régulières ou ponctuelles, en présentiel à Paris, en visio ou sur WhatsApp, hotline et mémos : le mentorat proposé par Jean Rouilly.' ],
-	'contact'                      => [ 'Contact', 'contact.html', 'Contactez Jean Rouilly pour un premier échange : formulaire, téléphone, e-mail ou WhatsApp. Vos informations restent confidentielles.' ],
+	'accompagnement'               => [ 'Mon accompagnement', 'accompagnement.html', 'Méthode, flexibilité, suivi personnalisé et tarifs adaptés à chacun, avec une première session diagnostic offerte : le mentorat de Jean Rouilly.' ],
+	'contact'                      => [ 'Contact', 'contact.html', 'Réservez votre session diagnostic offerte avec Jean Rouilly : formulaire, téléphone, e-mail ou WhatsApp. Vos informations restent confidentielles.' ],
 	'mentions-legales'             => [ 'Mentions légales', 'mentions-legales.html', '' ],
 	'politique-de-confidentialite' => [ 'Politique de confidentialité', 'confidentialite.html', '' ],
 ];

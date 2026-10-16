@@ -106,15 +106,16 @@ h3 { font-size: 1.25rem; font-weight: 700; }
 	font-weight: 600;
 }
 
-/* Textes courants limités en largeur mais alignés à gauche de la colonne
-   (la mise en page « contrainte » de WordPress les centrerait sinon). */
-.is-layout-constrained > .jr-eyebrow + h1,
+.jr-eyebrow + h1,
 .jr-eyebrow + h2,
 .jr-eyebrow + .jr-statement {
 	margin-top: 0.5rem !important;
 }
 
-.jr-lead {
+/* Textes courants limités en largeur mais alignés à gauche de la colonne
+   (la mise en page « contrainte » de WordPress les centrerait sinon). */
+.is-layout-constrained > .jr-lead,
+.is-layout-constrained > .jr-section-lead {
 	max-width: min(46rem, var(--wp--style--global--content-size, 100%));
 	margin-left: max(0px, calc((100% - var(--wp--style--global--content-size, 100%)) / 2)) !important;
 	margin-right: auto !important;
@@ -591,6 +592,100 @@ h3 { font-size: 1.25rem; font-weight: 700; }
 	text-decoration: underline;
 }
 
+/* --- Introduction : pourquoi le mentorat / mes convictions -------------- */
+
+.jr-intro {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+	gap: clamp(2rem, 5vw, 4.5rem);
+	align-items: start;
+}
+
+.jr-intro > * {
+	margin: 0 !important;
+}
+
+.jr-intro__beliefs {
+	padding: clamp(1.5rem, 3vw, 2.25rem);
+	border-radius: var(--jr-radius);
+	background: var(--jr-cream);
+}
+
+.jr-intro__beliefs .jr-statement {
+	margin: 0 0 1.5rem !important;
+	font-size: clamp(1.15rem, 2vw, 1.4rem);
+	text-align: left;
+}
+
+.jr-section-lead {
+	max-width: 48rem;
+	font-size: 1.08rem;
+}
+
+/* Grilles de cartes : les colonnes vides se replient, les cartes occupent
+   toute la largeur disponible (auto-fit au lieu de l'auto-fill de WordPress). */
+.jr-cards.is-layout-grid {
+	grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)) !important;
+}
+
+.jr-cards--duo.is-layout-grid,
+.jr-prices.is-layout-grid {
+	grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)) !important;
+}
+
+/* --- Tarifs ----------------------------------------------------------- */
+
+.jr-prices {
+	gap: 1.5rem;
+	margin-top: 2rem;
+}
+
+.jr-price {
+	position: relative;
+	margin: 0 !important;
+	padding: 2rem 1.75rem;
+	border: 1px solid rgb(255 255 255 / 18%);
+	border-radius: var(--jr-radius);
+	background: rgb(255 255 255 / 7%);
+}
+
+.jr-price h3 {
+	margin-top: 0;
+}
+
+.jr-price p:last-child {
+	margin-bottom: 0;
+}
+
+.jr-price--free {
+	border: 0;
+	background: var(--jr-white);
+	color: var(--jr-text);
+	box-shadow: 0 24px 48px -24px rgb(0 0 0 / 45%);
+}
+
+.jr-engagement .jr-price--free h3 {
+	color: var(--jr-heading);
+}
+
+.jr-badge {
+	display: inline-block;
+	margin: 0 0 0.9rem !important;
+	padding: 0.3rem 0.8rem;
+	border-radius: 999px;
+	background: linear-gradient(90deg, var(--jr-sun), var(--jr-coral));
+	color: var(--jr-white);
+	font-family: var(--jr-font-heading);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.jr-tarifs {
+	scroll-margin-top: 2rem;
+}
+
 /* --- Mon parcours -------------------------------------------------------- */
 
 .jr-parcours__cols {
@@ -961,7 +1056,8 @@ h3 { font-size: 1.25rem; font-weight: 700; }
 }
 
 @media (max-width: 999px) {
-	.is-layout-constrained > .jr-lead {
+	.is-layout-constrained > .jr-lead,
+	.is-layout-constrained > .jr-section-lead {
 		margin-left: auto !important;
 	}
 }

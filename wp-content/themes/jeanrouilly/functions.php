@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JR_VERSION', '0.5.0' );
+define( 'JR_VERSION', '0.6.0' );
 
 /**
  * Styles du site, chargés après ceux de Blocksy (front et éditeur).
