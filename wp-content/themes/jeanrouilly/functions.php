@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'JR_VERSION', '0.6.0' );
+define( 'JR_VERSION', '0.7.0' );
 
 /**
  * Styles du site, chargés après ceux de Blocksy (front et éditeur).
@@ -166,7 +166,7 @@ function jr_seo_head() {
 				'@context'    => 'https://schema.org',
 				'@type'       => 'Person',
 				'name'        => 'Jean Rouilly',
-				'jobTitle'    => 'Mentor',
+				'jobTitle'    => 'Mentor personnel et professionnel',
 				'description' => $description,
 				'url'         => home_url( '/' ),
 				'image'       => $image,

@@ -121,6 +121,19 @@ h3 { font-size: 1.25rem; font-weight: 700; }
 	margin-right: auto !important;
 }
 
+/* Phrase clé de l'accueil */
+.jr-keyline {
+	position: relative;
+	margin: 1.25rem 0 1rem !important;
+	padding-left: 1.1rem;
+	border-left: 4px solid var(--jr-sun);
+	font-family: var(--jr-font-heading);
+	font-size: clamp(1.2rem, 2vw, 1.5rem);
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--jr-heading);
+}
+
 /* --- Boutons ------------------------------------------------------------ */
 
 .wp-block-button__link,

@@ -37,7 +37,7 @@ update_option( 'jr_contact', $contact );
  * ---------------------------------------------------------------------- */
 
 update_option( 'blogname', 'Jean Rouilly' );
-update_option( 'blogdescription', 'Mentorat personnalisé' );
+update_option( 'blogdescription', 'Mentor personnel et professionnel' );
 update_option( 'timezone_string', 'Europe/Paris' );
 update_option( 'date_format', 'j F Y' );
 update_option( 'time_format', 'G\hi' );
