@@ -93,4 +93,8 @@ wp eval 'add_filter("got_rewrite", "__return_true"); require_once ABSPATH . "wp-
 # lise la palette tout juste enregistrée (et pas des réglages en cache mémoire).
 wp eval 'delete_transient("blocksy_dynamic_styles_descriptor"); do_action("blocksy:dynamic-css:refresh-caches");'
 
+echo "==> Formulaire de contact"
+wp eval 'foreach ( WPCF7_ContactForm::find() as $f ) { $m = $f->prop( "mail" ); echo "   « " . $f->title() . " » → destinataire : " . $m["recipient"] . "\n"; }'
+echo "==> Indexation : blog_public=$(wp option get blog_public) (1 = ouvert aux moteurs de recherche)"
+
 echo "==> Terminé : $(wp option get home)"

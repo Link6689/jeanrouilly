@@ -205,6 +205,25 @@ $pages = [
 
 $page_ids = [];
 
+// Garde-fou : si une page a été modifiée dans l'admin depuis la dernière
+// synchronisation, on s'arrête plutôt que d'écraser ces modifications.
+$synced_at = get_option( 'jr_content_synced_at' );
+if ( $synced_at && ! getenv( 'FORCE' ) ) {
+	$edited = [];
+	foreach ( array_keys( $pages ) as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && strtotime( $page->post_modified_gmt . ' UTC' ) > (int) $synced_at + 60 ) {
+			$edited[] = "« {$page->post_title} » (modifiée le {$page->post_modified})";
+		}
+	}
+	if ( $edited ) {
+		WP_CLI::error(
+			"Pages modifiées dans l'admin depuis la dernière mise à jour :\n  - " . implode( "\n  - ", $edited )
+			. "\nReportez ces modifications dans setup/content/ avant de relancer, ou relancez avec FORCE=1 pour les écraser."
+		);
+	}
+}
+
 foreach ( $pages as $slug => list( $title, $file, $excerpt ) ) {
 	$content = file_get_contents( "$content_dir/$file" );
 	$content = strtr(
@@ -258,6 +277,8 @@ foreach ( $pages as $slug => list( $title, $file, $excerpt ) ) {
 
 	jr_log( "Page « $title » #$id" );
 }
+
+update_option( 'jr_content_synced_at', time() );
 
 update_option( 'show_on_front', 'page' );
 update_option( 'page_on_front', $page_ids['accueil'] );
