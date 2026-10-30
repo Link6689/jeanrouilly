@@ -103,7 +103,6 @@ La palette est modifiable dans **Apparence › Personnaliser › Couleurs** (Blo
 ## Avant la mise en production
 
 - [x] Mentions légales (éditeur IMC Partners, hébergeur o2switch) et politique de confidentialité
-- [ ] Renseigner le **capital social** d'IMC Partners (`'capital'` dans `setup/setup.php`)
 - [ ] Vérifier l'envoi des e-mails du formulaire (installer un plugin SMTP, ex. *WP Mail SMTP*, si besoin)
 - [ ] Ajouter une photo de Jean et éventuellement un logo
 - [ ] Ajouter un anti-spam au formulaire (ex. Cloudflare Turnstile ou reCAPTCHA, intégrés à Contact Form 7)
