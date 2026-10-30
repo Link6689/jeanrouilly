@@ -51,6 +51,28 @@ que Jean édite les textes directement dans WordPress, ne plus relancer `setup.p
 Si WordPress est déjà installé via le panneau de l'hébergeur, le script le détecte et
 passe directement à la configuration.
 
+## Production : jeanrouilly.fr
+
+La production est une **copie de la préprod** sur le même compte o2switch
+(domaine `jeanrouilly.fr`, déjà déclaré dans le cPanel), avec sa propre base.
+
+Mise en production (une seule fois), dans le Terminal du cPanel :
+
+```bash
+curl -sSL https://codeload.github.com/Link6689/jeanrouilly/tar.gz/refs/heads/claude/pensive-feynman-gpmy83 | tar -xzOf - --wildcards '*/setup/prod.sh' | bash
+```
+
+`setup/prod.sh` sauvegarde la base de préprod (`~/sauvegardes-jeanrouilly/`),
+crée la base `<compte>_jeanprod`, copie les fichiers, remplace l'adresse et
+ouvre le site aux moteurs de recherche. Il refuse de tourner si jeanrouilly.fr
+contient déjà un WordPress (`FORCE=1` pour écraser volontairement).
+
+Ensuite :
+
+- les textes se modifient **directement dans l'admin** de jeanrouilly.fr ;
+- la commande `setup/o2switch.sh` ne touche **que la préprod** (utile pour
+  tester une évolution avant de la reporter en production).
+
 ## En local (Docker)
 
 ```bash
@@ -81,4 +103,4 @@ La palette est modifiable dans **Apparence › Personnaliser › Couleurs** (Blo
 - [ ] Vérifier l'envoi des e-mails du formulaire (installer un plugin SMTP, ex. *WP Mail SMTP*, si besoin)
 - [ ] Ajouter une photo de Jean et éventuellement un logo
 - [ ] Ajouter un anti-spam au formulaire (ex. Cloudflare Turnstile ou reCAPTCHA, intégrés à Contact Form 7)
-- [ ] Passer `JR_PREPROD=0` et relancer le script (ou cocher la visibilité moteurs de recherche)
+- [ ] Mettre en production avec `setup/prod.sh` (voir ci-dessus)
