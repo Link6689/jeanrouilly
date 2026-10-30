@@ -70,6 +70,9 @@ contient déjà un WordPress (`FORCE=1` pour écraser volontairement).
 Ensuite :
 
 - les textes se modifient **directement dans l'admin** de jeanrouilly.fr ;
+- pour reporter une évolution du dépôt en production :
+  `… tar -xzOf - --wildcards '*/setup/update-prod.sh' | bash` (sauvegarde la base,
+  refuse d'écraser une page modifiée dans l'admin sauf `FORCE=1`) ;
 - la commande `setup/o2switch.sh` ne touche **que la préprod** (utile pour
   tester une évolution avant de la reporter en production).
 
@@ -99,7 +102,8 @@ La palette est modifiable dans **Apparence › Personnaliser › Couleurs** (Blo
 
 ## Avant la mise en production
 
-- [ ] Compléter **mentions légales** (statut, SIRET, adresse, hébergeur) et **politique de confidentialité**
+- [x] Mentions légales (éditeur IMC Partners, hébergeur o2switch) et politique de confidentialité
+- [ ] Renseigner le **capital social** d'IMC Partners (`'capital'` dans `setup/setup.php`)
 - [ ] Vérifier l'envoi des e-mails du formulaire (installer un plugin SMTP, ex. *WP Mail SMTP*, si besoin)
 - [ ] Ajouter une photo de Jean et éventuellement un logo
 - [ ] Ajouter un anti-spam au formulaire (ex. Cloudflare Turnstile ou reCAPTCHA, intégrés à Contact Form 7)

@@ -26,6 +26,8 @@ $contact = [
 	'phone'    => '06 86 18 55 34',
 	'linkedin' => 'https://www.linkedin.com/in/jean-rouilly-08329019/',
 	'city'     => 'Paris',
+	// Capital social d'IMC Partners, à renseigner (ex. '10 000 €') pour les mentions légales.
+	'capital'  => '',
 ];
 $contact['phone_intl'] = '33' . substr( preg_replace( '/\D/', '', $contact['phone'] ), 1 );
 $contact['whatsapp']   = 'https://wa.me/' . $contact['phone_intl'] . '?text=' . rawurlencode( 'Bonjour Jean, je vous contacte depuis votre site.' );
@@ -237,6 +239,7 @@ foreach ( $pages as $slug => list( $title, $file, $excerpt ) ) {
 			'{{PHONE_LINK}}'   => 'tel:+' . $contact['phone_intl'],
 			'{{WHATSAPP}}'     => esc_url( $contact['whatsapp'] ),
 			'{{LINKEDIN}}'     => $contact['linkedin'],
+			'{{COMPANY_FORM}}' => $contact['capital'] ? 'SAS au capital de ' . $contact['capital'] : 'SAS',
 		]
 	);
 
